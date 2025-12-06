@@ -14,10 +14,10 @@ class Contract extends Model
         'user_id',
         'type_assurance',
         'montant_couverture',
-        'prime_mensuelle',
+        'prime',
         'date_debut',
         'date_fin',
-        'statut',
+        'status',
         'smart_contract_address',
         'transaction_hash'
     ];

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
+
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
  */
@@ -22,6 +23,21 @@ class UserFactory extends Factory
      * @return array<string, mixed>
      */
     public function definition(): array
+        {
+            return [
+                // SUPPRIME 'name' => fake()->name(),
+                // AJOUTE CES LIGNES :
+                'nom' => fake()->lastName(),
+                'prenom' => fake()->firstName(),
+                'role' => 'assure', // Important car ta BDD attend un rôle
+                
+                'email' => fake()->unique()->safeEmail(),
+                'email_verified_at' => now(),
+                'password' => Hash::make('password'), // Génère un hash compatible (Cost 4)
+                'remember_token' => \Illuminate\Support\Str::random(10),
+            ];
+        }
+    /*
     {
         return [
             'name' => fake()->name(),
@@ -31,10 +47,12 @@ class UserFactory extends Factory
             'remember_token' => Str::random(10),
         ];
     }
+        */
 
     /**
      * Indicate that the model's email address should be unverified.
      */
+    
     public function unverified(): static
     {
         return $this->state(fn (array $attributes) => [

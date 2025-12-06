@@ -51,10 +51,10 @@ class ContractController extends Controller
             'user_id' => Auth::id(), // Laravel remplit ça tout seul grâce au Token !
             'type_assurance' => $request->type_assurance,
             'montant_couverture' => $request->montant_couverture,
-            'prime_mensuelle' => $request->prime_mensuelle,
+            'prime' => $request->prime_mensuelle,
             'date_debut' => $request->date_debut,
             'date_fin' => $request->date_fin,
-            'statut' => 'brouillon', // Statut par défaut selon le PDF
+            'status' => 'brouillon', // Statut par défaut selon le PDF
         ]);
 
         return response()->json([
