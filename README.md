@@ -1,59 +1,142 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+README.md
+🛡️ ASSURANCE BLOCKCHAIN API - Backend Laravel 11 / JWT / IPFS
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Bienvenue à l'équipe ! Ce projet contient l'API RESTful développée avec Laravel pour gérer les fonctionnalités clés de notre application d'assurance, notamment la gestion sécurisée des Sinistres avec preuve décentralisée (IPFS).
 
-## About Laravel
+Félicitations pour le projet ! Les tests sont finaux et tout est fonctionnel et stable.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+1. Technologies & Prérequis Techniques
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Pour démarrer et tester l'API, les éléments suivants doivent être installés et configurés (environnement de développement testé sur Kali Linux).
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Composant	Exigence	But dans le Projet
+PHP & Framework	PHP 8.x / Laravel 11	Langage backend principal.
+Base de Données	MySQL / MariaDB (via XAMPP)	Stockage sécurisé des utilisateurs, contrats, et métadonnées de sinistres.
+Contrôleur SGBD	\texttt{php-mysql} driver	Essentiel pour que PHP puisse se connecter à la base de données.
+Outils Système	\texttt{git}, \texttt{composer}	Gestion du code source et des dépendances PHP.
+Testing/Client	Postman ou Thunder Client	Envoi des requêtes API (\texttt{POST}, \texttt{GET}, \texttt{PATCH}, etc.).
+Blockchain/Preuve	Kubo (Démon IPFS)	Décentralisation de l'upload du fichier preuve de sinistre (\texttt{proof_file}).
+2. Guide d'Installation et Configuration de l'Environnement
 
-## Learning Laravel
+Suivez ces étapes dans l'ordre pour configurer l'environnement pour la première fois :
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+Étape 2.1 : Configuration Système et Dépendances
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Installer le Driver MySQL/PHP (Correction du bug "Driver not found") :
 
-## Laravel Sponsors
+code
+Bash
+download
+content_copy
+expand_less
+sudo apt update
+sudo apt install php-mysql
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Cloner le Projet et Installer les Dépendances Composer :
 
-### Premium Partners
+code
+Bash
+download
+content_copy
+expand_less
+git clone https://github.com/DianeIris/assurance-blockchain.git
+cd assurance-blockchain
+composer install
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+Cloner la Configuration :
 
-## Contributing
+code
+Bash
+download
+content_copy
+expand_less
+cp .env.example .env
+Étape 2.2 : Configuration XAMPP/Base de Données
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Modifiez le fichier \texttt{.env} pour la connexion locale à la base de données via XAMPP.
 
-## Code of Conduct
+Clé	Valeur	Note
+\texttt{DB_CONNECTION}	\texttt{mysql}	Doit rester \texttt{mysql}.
+\texttt{DB_HOST}	\texttt{127.0.0.1}	IP standard pour le serveur local XAMPP.
+\texttt{DB_PORT}	\texttt{3306}	Port standard de MySQL.
+\texttt{DB_DATABASE}	\texttt{assurance_blockchain}	Nom de la base de données créée dans phpMyAdmin.
+\texttt{DB_USERNAME}	\texttt{root}	Identifiant par défaut de XAMPP (doit être configuré).
+\texttt{DB_PASSWORD}	(vide par défaut)	Laissez vide si XAMPP n'a pas de mot de passe root.
+Étape 2.3 : Démarrage des Services et Initialisation de Laravel
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Démarrer MySQL (XAMPP) et Laravel :
 
-## Security Vulnerabilities
+code
+Bash
+download
+content_copy
+expand_less
+sudo /opt/lampp/lampp start mysql  # Démarrer la BDD
+php artisan key:generate           # Générer la clé de l'application
+php artisan serve                  # Lancer le serveur (URL de test : 127.0.0.1:8000)
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Initialisation du Système d'Authentification (JWT) :
 
-## License
+code
+Bash
+download
+content_copy
+expand_less
+php artisan jwt:secret             # Générer la clé JWT
+3. Configuration IPFS (Intégration Blockchain/Preuve)
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+L'intégration d'IPFS est CRUCIALE. L'API contacte un serveur IPFS pour chaque upload de fichier preuve.
+
+Démarrer le Démon IPFS (Dans un autre Terminal, Gardez-le Ouvert) :
+
+code
+Bash
+download
+content_copy
+expand_less
+# Si le dépôt n'est pas initialisé (une seule fois):
+# ipfs init 
+
+# Démarrer le serveur (doit tourner pour que la route Claims fonctionne)
+ipfs daemon
+3.1. Construction et Seed (Mise à Jour Critique)
+
+Cette commande est la seule requise pour initialiser la BDD avec le schéma final (incluant le fix de la colonne status en \texttt{ENUM} et la création des comptes de test).
+
+code
+Bash
+download
+content_copy
+expand_less
+# Détruit l'ancien schéma, recrée et remplit avec les données de test (seed)
+php artisan migrate:fresh --seed
+4. Guide des Tests API (Procédure Pas-à-Pas)
+
+Toutes les routes sont testées ci-dessous en utilisant Postman. \textbf{Le TON\_TOKEN\_... doit être collé dans le Header : \texttt{Authorization: Bearer TON_TOKEN}}
+
+Seq	Méthode	Route	Action/Body	Rôle	Succès Attendu
+1.	\texttt{POST}	\texttt{/api/register}	Créer : nom, prenom, email:\texttt{client@test.com}, role:\texttt{assure}	\texttt{Client}	\texttt{201 Created}
+2.	\texttt{POST}	\texttt{/api/login}	\texttt{email:client@test.com, password:password}	\texttt{Client}	\texttt{200 OK} et Récupération du TON_TOKEN_CLIENT.
+3.	\texttt{POST}	\texttt{/api/contracts}	\texttt{Auth: Bearer Client}, \texttt{Body(JSON): type_assurance, montant, prime...}	\texttt{Client}	\texttt{201 Created}. Contrat créé.
+4.	\texttt{POST}	\texttt{/api/claims}	\texttt{Auth: Client}, \texttt{Body(Form-Data): contract_id, description, proof_file}	\texttt{Client}	\texttt{201 Created} avec un \texttt{ipfs_hash} (Test de l'Intégration IPFS).
+5.	\texttt{POST}	\texttt{/api/login}	\texttt{email:admin@test.com, password:password}	\texttt{Admin}	\texttt{200 OK} et Récupération du TON_TOKEN_ADMIN.
+6.	\texttt{GET}	\texttt{/api/claims}	\texttt{Auth: Admin}, (Liste complète)	\texttt{Admin}	\texttt{200 OK} (Affiche TOUS les sinistres).
+7.	\texttt{PATCH}	\texttt{/api/claims/1}	\texttt{Auth: Admin}, \texttt{Body(JSON): status: "approuvé", commentaire_expert}	\texttt{Admin}	\texttt{200 OK}. Statut passe de en_attente à approuvé (Test de l'Update et des Permissions !).
+8.	\texttt{DELETE}	\texttt{/api/claims/1}	\texttt{Auth: Admin}	\texttt{Admin}	\texttt{200 OK} (Finalisation du cycle CRUD).
+5. Architecture du Projet et Fonctionnalités Clés
+
+Le projet respecte les spécifications par un développement rigoureux incluant la résolution de plusieurs problèmes critiques d'environnement et de logique :
+
+Full CRUD sur les Sinistres : Les routes (\texttt{store}, \texttt{index}, \texttt{show}, \texttt{update}, \texttt{destroy}) sont opérationnelles, y compris la lecture filtrée et la suppression par rôle.
+
+Sécurité RBAC (Rôles) : Les Contrôleurs implémentent des règles de sécurité stricte : seuls les rôles \texttt{admin} et \texttt{expert} ont les permissions d'écrire ou d'approuver un sinistre.
+
+Résolution Critique (BDD) : La stabilité du système a été garantie par le passage du statut de la colonne Sinistre au type de données \textbf{ENUM} (\texttt{'en_attente', 'approuvé', ...}), réglant l'erreur persistante \texttt{Data truncated for column 'status'}.
+
+6. Prochaines Étapes Essentielles
+
+\textbf{Finalisation CRUD : Primes} - Développement du module de gestion des paiements (\texttt{premiums}).
+
+\textbf{Qualité de Code :} Migration des règles de validation (actuellement dans les Contrôleurs) vers les \texttt{Form Requests} (dossier \texttt{app/Http/Requests}).
+
+\textbf{Tests Automatiques :} Écriture des \texttt{Tests Unitaires/Feature} dans \texttt{tests/Feature/SinistreTest.php} (en utilisant \texttt{Http::fake()} pour le déport de l'intégration IPFS).
